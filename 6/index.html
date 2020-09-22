@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v6</title>
+    <script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL7_cBFaxTj5l1YcIEAOqVOhkrPtvAOV4&callback=initMap"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Наши офисы на карте</h1>
+        <select id="city">
+            <option value="1">Санкт-Петербург</option>
+            <option value="2">Москва</option>
+            <option value="3">Самара</option>
+        </select>
+        <div id="map"></div>
+    </div>
+
+    <script>
+
+
+
+        // Отрефакторили код! 👍
+        // Почитать про деструктуризацию: https://learn.javascript.ru/destructuring-assignment#destrukturizatsiya-obekta
+        // Почитать про короткие свойства: https://learn.javascript.ru/object#svoystvo-iz-peremennoy
+        // TODO: Добавить опеределение геолокации ...
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v4</title>
+    <script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL7_cBFaxTj5l1YcIEAOqVOhkrPtvAOV4&callback=initMap"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Наши пункты выдачи на карте</h1>
+        <div id="map"></div>
+    </div>
+
+    <script>
+        // План работ:
+        // 1. Создать массив пунктов выдачи, каждый пункт выдачи - объект с нужными свойствами: id, address и проч.
+        // 2. После создания карты, обойти массив офисов в цикле и для каждого создать маркер с инфо-окном и добавить на карту.
+
+
+        // Массив пунктов выдачи
+        const points = [
+            {
+                id: 1,
+                address: "пр. Кирова, д. 14, корп. 3.",
+                imgUrl: "https://loremflickr.com/200/300?random=1",
+                lat: 55.711667,
+                lng: 37.647778,
+            },
+            {
+                id: 2,
+                address: "пл. Сталина, д. 30, корп. 16.",
+                imgUrl: "https://loremflickr.com/200/300?random=2",
+                lat: 55.691667,
+                lng: 37.677778,
+            },
+
+        ];
+
+        const infoWindows = [];
+        const compmanyName = 'Коксберри';
+
+        let map;
+
+        function initMap() {
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 55.751667, lng: 37.617778 }, // Москва
+                zoom: 11
+            });
+
+            // Обходим массив пунктов выдачи и добавляем каждый на карту
+            points.forEach((point) => {
+
+                const marker = new google.maps.Marker({ position: { lat: point.lat, lng: point.lng }, map: map });
+
+                const content = `<div>
+                    <h3>${compmanyName}</h3>
+                    <div>
+                        <img src="${point.imgUrl}"/>
+                        <address>${point.address}</address>
+                    </div>
+                </div>`;
+
+                const infoWindow = new google.maps.InfoWindow({ content: content });
+                infoWindows.push(infoWindow); 
+
+                marker.addListener('click', () => {
+                    infoWindows.forEach(infoWindow => infoWindow.close());
+                    infoWindow.open(map, marker);
+                });
+            });
+
+        }
+
+        // Запрограммировали добавление объектов на карту из массива! 👏
+        // Почитать про метод forEach: https://learn.javascript.ru/array-methods#perebor-foreach
+        // TODO: добавить функционал выбора города и центрирование карты по выбранному городу.
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v3</title>
+    <script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL7_cBFaxTj5l1YcIEAOqVOhkrPtvAOV4&callback=initMap"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Наши пункты выдачи на карте</h1>
+        <div id="map"></div>
+    </div>
+
+    <script>
+        // План работ:
+        // 1. Создать объекты инфо-окон для объектов на карте, заполнить их нужным контентом
+        // 2. Запрограммировать показ инфо-окна при клике по маркеру
+        // 3. Запрограммировать закрытие других инфо-окон.
+
+        // Массив инфо-окон
+        const infoWindows = [];
+
+        let map;
+
+        function initMap() {
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 55.751667, lng: 37.617778 }, // Москва
+                zoom: 11
+            });
+
+            const marker = new google.maps.Marker({ position: { lat: 55.711667, lng: 37.647778 }, map: map });
+
+            // Разметка инфо-окна
+            const content = `<div>
+                <h3>Коксберри</h3>
+                <div>
+                    <img src="https://loremflickr.com/200/300?random=1"/>
+                    <address>пр. Кирова, д. 14, корп. 3.</address>
+                </div>
+            </div>`;
+
+            // Создаем объект инфо-окна, сохраняем его в массив
+            const infoWindow = new google.maps.InfoWindow({ content: content });
+            infoWindows.push(infoWindow); 
+
+            // Программируем показ инфо-окна по клику на маркер
+            marker.addListener('click', () => {
+
+                // закрываем другие ифо-окна
+                infoWindows.forEach(infoWindow => infoWindow.close());
+
+                //Открываем текущее
+                infoWindow.open(map, marker);
+            });
+
+            // Теперь все тоже самое для другого объекта на карте
+            const marker2 = new google.maps.Marker({ position: { lat: 55.691667, lng: 37.677778 }, map: map });
+            
+            const content2 = `<div>
+                <h3>Коксберри</h3>
+                <div>
+                    <img src="https://loremflickr.com/200/300?random=2"/>
+                    <address>пл. Сталина, д. 30, корп. 16.</address>
+                </div>
+            </div>`;
+
+            const infoWindow2 = new google.maps.InfoWindow({ content: content2 });
+            infoWindows.push(infoWindow2); 
+
+            marker2.addListener('click', () => {
+                infoWindows.forEach(infoWindow => infoWindow.close());
+                infoWindow2.open(map, marker2);
+            });
+        }
+
+        // Добавили показ и сокрытие инфо-окон 💪.
+        // Документация по инфо-окнам: https://developers.google.com/maps/documentation/javascript/infowindows
+        // Повторить про let и const: https://learn.javascript.ru/var
+        // TODO: переделать на программное добавление объектов на карту (из массива).
+
+    </script>
+</body>
+
+</html>
