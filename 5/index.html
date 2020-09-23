@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>v5</title>
     <script defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL7_cBFaxTj5l1YcIEAOqVOhkrPtvAOV4&callback=initMap"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
     <style>
         html,
         body {
@@ -29,22 +29,26 @@
 
 <body>
     <div class="container">
-        <h1>Наши офисы на карте</h1>
-        <select id="city"></select>
+        <h1>Наши пункты выдачи на карте</h1>
+        <select id="city">
+            <option value="1">Москва</option>
+            <option value="2">Санкт-Петербург</option>
+        </select>
         <div id="map"></div>
     </div>
 
     <script>
 
+        // План:
         // 1. Создать массив городов, каждый город - объект с нужными свойствами: id, name и проч
         // 2. Получаем из массива текущий город и центрируем карту по координатам города
-        // 3. Добавить в разметку селект городов, заполнить его программно (из массива городов)
+        // 3. Добавить в разметку селект городов
         // 4. Повесить обработчик на выбор города из списка, в теле обработчика получить объект выбранного города, отцентрировать карту по координатам города
         // 5. Отключить элементы управления на карте
 
         // Массив городов
         const cities = [
-        {
+            {
                 id: 1,
                 name: "Москва",
                 lat: 55.751667,
@@ -60,9 +64,8 @@
             }
         ];
 
-        // Массив пунктов выдачи
         const points = [
-        {
+            {
                 id: 1,
                 address: "пр. Кирова, д. 14, корп. 3.",
                 imgUrl: "https://loremflickr.com/200/300?random=1",
@@ -76,7 +79,7 @@
                 lat: 55.691667,
                 lng: 37.677778,
             },
-        {
+            {
                 id: 3,
                 address: "пер. Дорофеевa, д. 60.",
                 imgUrl: "https://loremflickr.com/200/300?random=3",
@@ -97,27 +100,27 @@
                 lat: 59.945202,
                 lng: 30.344276,
             },
-            
+
         ];
 
         const infoWindows = [];
         const compmanyName = 'Коксберри';
         const currentCityId = 1; // Москва
-        const currentCity = cities.find(city => city.id === currentCityId);
+        const currentCity = cities.find(city => city.id === currentCityId); // Получаем объект города из массива по id
 
         let map;
 
         function initMap() {
 
             map = new google.maps.Map(document.getElementById("map"), {
-                center: {lat: currentCity.lat, lng: currentCity.lng},
+                center: { lat: currentCity.lat, lng: currentCity.lng },
                 zoom: 11,
                 disableDefaultUI: true
             });
 
             points.forEach((point) => {
 
-                const marker = new google.maps.Marker({ position: {lat: point.lat, lng: point.lng}, map: map });
+                const marker = new google.maps.Marker({ position: { lat: point.lat, lng: point.lng }, map: map });
 
                 const content = `<div>
                     <h3>${compmanyName}</h3>
@@ -128,7 +131,7 @@
                 </div>`;
 
                 const infoWindow = new google.maps.InfoWindow({ content: content });
-                infoWindows.push(infoWindow); 
+                infoWindows.push(infoWindow);
 
                 marker.addListener('click', () => {
                     infoWindows.forEach(infoWindow => infoWindow.close());
@@ -138,20 +141,16 @@
 
         }
 
-        // Заполняем селект городами из массива
-        const options = cities.map(city => `<option value="${city.id}" ${(currentCityId == city.id) && 'selected'}>${city.name}</option>`);
-        document.querySelector("#city").insertAdjacentHTML("beforeend", options);
-
         // Навешиваем обработчик на выбор города
         document.querySelector("#city").addEventListener("change", (event) => {
 
-            // Получаем выбранный город по id
+            // Получаем выбранный город из массива по id
             const selectedCityId = event.target.value;
             const selectedCity = cities.find(city => city.id == selectedCityId);
 
             // Центрируем карту по выбраному городу
             map.setOptions({
-                center: {lat: selectedCity.lat, lng: selectedCity.lng},
+                center: { lat: selectedCity.lat, lng: selectedCity.lng },
                 zoom: selectedCity.zoom
             });
         })
@@ -162,9 +161,9 @@
         // Повторить про метод find: https://learn.javascript.ru/array-methods#find-i-findindex
 
         // TODO:
-        // 1. Разбить код на функции
+        // 1. Код создания разметки инфо-окна унести в отдельную фукнцию-шаблонизатор
         // 2. Заюзать деструктуризацию и короткие свойства
-        
+
     </script>
 </body>
 

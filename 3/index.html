@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>v3</title>
     <script defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL7_cBFaxTj5l1YcIEAOqVOhkrPtvAOV4&callback=initMap"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
     <style>
         html,
         body {
@@ -34,8 +34,8 @@
     </div>
 
     <script>
-        // План работ:
-        // 1. Создать объекты инфо-окон для объектов на карте, заполнить их нужным контентом
+        // План:
+        // 1. Создать объекты инфо-окон для маркеров на карте, заполнить их нужным контентом
         // 2. Запрограммировать показ инфо-окна при клике по маркеру
         // 3. Запрограммировать закрытие других инфо-окон.
 
@@ -47,7 +47,7 @@
         function initMap() {
 
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 55.751667, lng: 37.617778 }, // Москва
+                center: { lat: 55.751667, lng: 37.617778 },
                 zoom: 11
             });
 
@@ -64,21 +64,23 @@
 
             // Создаем объект инфо-окна, сохраняем его в массив
             const infoWindow = new google.maps.InfoWindow({ content: content });
-            infoWindows.push(infoWindow); 
+            infoWindows.push(infoWindow);
 
             // Программируем показ инфо-окна по клику на маркер
             marker.addListener('click', () => {
+
 
                 // закрываем другие ифо-окна
                 infoWindows.forEach(infoWindow => infoWindow.close());
 
                 //Открываем текущее
                 infoWindow.open(map, marker);
+
             });
 
             // Теперь все тоже самое для другого объекта на карте
             const marker2 = new google.maps.Marker({ position: { lat: 55.691667, lng: 37.677778 }, map: map });
-            
+
             const content2 = `<div>
                 <h3>Коксберри</h3>
                 <div>
@@ -88,7 +90,7 @@
             </div>`;
 
             const infoWindow2 = new google.maps.InfoWindow({ content: content2 });
-            infoWindows.push(infoWindow2); 
+            infoWindows.push(infoWindow2);
 
             marker2.addListener('click', () => {
                 infoWindows.forEach(infoWindow => infoWindow.close());
